@@ -1,0 +1,77 @@
+server:
+  port: 8043
+  reactive:
+    session:
+      # Sessões consomem memória no WebFlux. Mantenha baixo ou disable se a API for stateless.
+      timeout: 5m
+  netty:
+    # O tuning ideal depende de núcleos disponíveis.
+    # worker-count = núcleos * 2 costuma ser uma boa referência.
+    worker-count: 16
+    select-count: 4   # 8 pode ser overkill em muitos ambientes
+    connection-timeout: 20000
+  ssl:
+    enabled: true
+    key-store: classpath:facilit.p12
+    key-store-password: 123456
+    key-store-type: PKCS12
+    key-alias: facilit
+  http2:
+    enabled: true
+  compression:
+    enabled: true
+    mime-types: >
+      text/html,text/xml,text/plain,text/css,text/javascript,
+      application/javascript,application/json,application/problem+json
+    min-response-size: 1024
+
+
+reactor:
+  netty:
+    ioWorkerCount: 16
+    ioSelectCount: 4
+    ioPool:
+      leasingStrategy: elastic
+    ioBufferSize: 65536 # OK se lida com payloads grandes
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    enable:
+      all: true
+  endpoint:
+    prometheus:
+      enabled: true
+
+
+spring:
+  application:
+    name: facilit-kanban
+  main:
+    web-application-type: reactive
+  jmx:
+    enable: false
+  datasource:
+    # Usado apenas se houver alguma dependência acidental do JDBC (Flyway). Pode remover se não usar nada bloqueante.
+    url: jdbc:postgresql://localhost:5432/facilit-kanban
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/facilit-kanban
+    username: user
+    password: password
+    pool:
+      initial-size: 10
+      max-size: 40
+      # Se o banco aceita bursts, este valor sobe bem a resiliência
+      max-idle-time: 30m
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
