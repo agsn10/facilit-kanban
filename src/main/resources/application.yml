@@ -58,12 +58,12 @@ spring:
   datasource:
     # Usado apenas se houver alguma dependência acidental do JDBC (Flyway). Pode remover se não usar nada bloqueante.
     url: jdbc:postgresql://localhost:5432/facilit-kanban
-    username: user
+    username: facilit
     password: password
     driver-class-name: org.postgresql.Driver
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/facilit-kanban
-    username: user
+    username: facilit
     password: password
     pool:
       initial-size: 10
@@ -75,3 +75,16 @@ spring:
       enabled: true
     livereload:
       enabled: true
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/facilit-kanban
+    user: facilit
+    password: password
+    driver-class-name: org.postgresql.Driver
+# Garante que o controle do Flyway possa começar em um banco já existente
+#    baseline-on-migrate: true
+# Garante que as migrations não foram alteradas após aplicadas
+#    validate-on-migrate: true
+# Garante que migrations fora de ordem não sejam aplicadas
+    out-of-order: false
+    locations: classpath:db/migration  # Caminho para as migrations do Flyway
