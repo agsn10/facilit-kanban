@@ -1,6 +1,5 @@
 package br.com.facilit.kanban.people.application.usecase;
 
-import br.com.facilit.kanban.organizational.domain.po.SecretariatPO;
 import br.com.facilit.kanban.people.application.command.ListAccountableCommand;
 import br.com.facilit.kanban.people.domain.po.AccountablePO;
 import br.com.facilit.kanban.people.mapping.AccountableMapper;
@@ -67,7 +66,7 @@ public class ListAccountableUseCase implements IUseCase<ListAccountableCommand.I
                 .collectList()
                 .doOnSuccess(list -> log.info("Itens retornados da consulta: {}", list.size()));
 
-        Mono<Long> count = template.count(Query.empty(), SecretariatPO.class)
+        Mono<Long> count = template.count(Query.empty(), AccountablePO.class)
                 .doOnSuccess(total -> log.info("Total de registros na base: {}", total));
 
         return Mono.zip(results, count)

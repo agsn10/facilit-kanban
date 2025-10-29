@@ -4,6 +4,7 @@ import br.com.facilit.kanban.project.application.command.*;
 import br.com.facilit.kanban.project.domain.dto.ProjectDTO;
 import br.com.facilit.kanban.project.domain.enums.StatusProject;
 import br.com.facilit.kanban.project.mapping.ProjectMapper;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import br.com.facilit.kanban.shared.usecase.IUseCase;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -67,7 +68,7 @@ public class ProjectAdapterConfig {
              * {@inheritDoc}
              */
             @Override
-            public Mono<Page<ProjectDTO.Response>> list(Pageable pageable) {
+            public Mono<PageResponse<ProjectDTO.Response>> list(Pageable pageable) {
                 ListProjectCommand.Input input = ProjectMapper.List.REQUEST_TO_INPUT.apply(pageable);
                 return listProject.execute(input).map(ProjectMapper.List.PAGE_OUTPUT_TO_PAGE_RESPONSE);
             }

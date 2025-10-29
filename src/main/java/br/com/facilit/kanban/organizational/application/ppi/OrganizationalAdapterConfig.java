@@ -3,6 +3,7 @@ package br.com.facilit.kanban.organizational.application.ppi;
 import br.com.facilit.kanban.organizational.application.command.*;
 import br.com.facilit.kanban.organizational.domain.dto.SecretariatDTO;
 import br.com.facilit.kanban.organizational.mapping.SecretariatMapper;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import br.com.facilit.kanban.shared.usecase.IUseCase;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -71,7 +72,7 @@ public class OrganizationalAdapterConfig {
             }
 
             @Override
-            public Mono<Page<SecretariatDTO.Response>> list(Pageable pageable) {
+            public Mono<PageResponse<SecretariatDTO.Response>> list(Pageable pageable) {
                 var input = SecretariatMapper.List.REQUEST_TO_INPUT.apply(pageable);
                 return listSecretariat.execute(input).map(SecretariatMapper.List.PAGE_OUTPUT_TO_PAGE_RESPONSE);
             }

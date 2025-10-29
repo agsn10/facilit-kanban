@@ -3,6 +3,7 @@ package br.com.facilit.kanban.people.application.ppi;
 import br.com.facilit.kanban.people.application.command.*;
 import br.com.facilit.kanban.people.domain.dto.AccountableDTO;
 import br.com.facilit.kanban.people.mapping.AccountableMapper;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import br.com.facilit.kanban.shared.usecase.IUseCase;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -71,7 +72,7 @@ public class PeopleAdapterConfig {
             }
 
             @Override
-            public Mono<Page<AccountableDTO.Response>> list(Pageable pageable) {
+            public Mono<PageResponse<AccountableDTO.Response>> list(Pageable pageable) {
                 ListAccountableCommand.Input input = AccountableMapper.List.REQUEST_TO_INPUT.apply(pageable);
                 return listAccountable.execute(input).map(AccountableMapper.List.PAGE_OUTPUT_TO_PAGE_RESPONSE);
             }

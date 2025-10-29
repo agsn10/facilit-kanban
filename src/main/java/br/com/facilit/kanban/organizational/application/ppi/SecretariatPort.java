@@ -1,6 +1,7 @@
 package br.com.facilit.kanban.organizational.application.ppi;
 
 import br.com.facilit.kanban.organizational.domain.dto.SecretariatDTO;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Mono;
@@ -37,7 +38,7 @@ public interface SecretariatPort {
      * @param pageable parâmetros de paginação e ordenação
      * @return {@link Mono} contendo uma {@link Page} com os dados das Secretarias
      */
-    Mono<Page<SecretariatDTO.Response>> list(Pageable pageable);
+    Mono<PageResponse<SecretariatDTO.Response>> list(Pageable pageable);
 
     /**
      * Consulta uma Secretaria pelo seu identificador único (UUID).

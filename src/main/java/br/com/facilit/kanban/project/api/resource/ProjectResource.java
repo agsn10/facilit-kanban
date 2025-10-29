@@ -5,10 +5,13 @@ import br.com.facilit.kanban.project.application.ppi.ProjectPort;
 import br.com.facilit.kanban.project.domain.dto.ProjectDTO;
 import br.com.facilit.kanban.project.domain.enums.StatusProject;
 import br.com.facilit.kanban.shared.aop.ReactiveTransactional;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -62,7 +65,10 @@ public class ProjectResource implements ProjectOpenApi {
      * @return {@link Mono} contendo uma {@link org.springframework.data.domain.Page} de {@link ProjectDTO.Response}
      */
     @GetMapping
-    public Mono<Page<ProjectDTO.Response>> list(Pageable pageable){
+    public Mono<PageResponse<ProjectDTO.Response>> list(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "20") int size,
+                                                        @RequestParam(defaultValue = "name") String sort){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         return projectPort.list(pageable);
     }
 
