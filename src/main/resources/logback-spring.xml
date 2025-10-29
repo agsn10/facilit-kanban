@@ -59,7 +59,7 @@
             <maxHistory>${MAX_HISTORY}</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%date "%requestURL" %statusCode %responseTime ms %n</pattern>
+            <pattern>%msg%n</pattern>
         </encoder>
     </appender>
 

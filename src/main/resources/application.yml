@@ -2,11 +2,11 @@ server:
   port: 8043
   reactive:
     session:
-      # Sessões consomem memória no WebFlux. Mantenha baixo ou disable se a API for stateless.
+      # Sessoes consomem memoria no WebFlux. Mantenha baixo ou disable se a API for stateless.
       timeout: 5m
   netty:
-    # O tuning ideal depende de núcleos disponíveis.
-    # worker-count = núcleos * 2 costuma ser uma boa referência.
+    # O tuning ideal depende de nucleos disponoveis.
+    # worker-count = nucleos * 2 costuma ser uma boa referencia.
     worker-count: 16
     select-count: 4   # 8 pode ser overkill em muitos ambientes
     connection-timeout: 20000
@@ -49,6 +49,11 @@ management:
 
 
 spring:
+  reactor:
+    netty:
+      http:
+        server:
+          accessLogEnabled: true
   application:
     name: facilit-kanban
   main:
@@ -56,7 +61,7 @@ spring:
   jmx:
     enable: false
   datasource:
-    # Usado apenas se houver alguma dependência acidental do JDBC (Flyway). Pode remover se não usar nada bloqueante.
+    # Usado apenas se houver alguma dependencia acidental do JDBC (Flyway). Pode remover se nao usar nada bloqueante.
     url: jdbc:postgresql://localhost:5432/facilit-kanban
     username: facilit
     password: password
@@ -66,9 +71,10 @@ spring:
     username: facilit
     password: password
     pool:
+      enabled: true
       initial-size: 10
       max-size: 40
-      # Se o banco aceita bursts, este valor sobe bem a resiliência
+      # Se o banco aceita bursts, este valor sobe bem a resiliencia
       max-idle-time: 30m
   devtools:
     restart:
@@ -76,15 +82,56 @@ spring:
     livereload:
       enabled: true
   flyway:
+    create-schemas: true
+    baseline-on-migrate: true
     enabled: true
     url: jdbc:postgresql://localhost:5432/facilit-kanban
     user: facilit
     password: password
     driver-class-name: org.postgresql.Driver
-# Garante que o controle do Flyway possa começar em um banco já existente
+# Garante que o controle do Flyway possa comecar em um banco ja existente
 #    baseline-on-migrate: true
-# Garante que as migrations não foram alteradas após aplicadas
+# Garante que as migrations nao foram alteradas apos aplicadas
 #    validate-on-migrate: true
-# Garante que migrations fora de ordem não sejam aplicadas
+# Garante que migrations fora de ordem nao sejam aplicadas
     out-of-order: false
     locations: classpath:db/migration  # Caminho para as migrations do Flyway
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+    operationsSorter: method
+    try-it-out-enabled: true
+    syntaxHighlight:
+      activated: true
+  api-docs:
+    path: /v3/api-docs
+
+logging:
+  file:
+    name: facilit-kanban.log
+    path: /logs
+
+    # NÃ­veis de logs (descomentando conforme necessÃ¡rio)
+    # level:
+    #   io:
+    #     r2dbc:
+    #       proxy: off
+    #       core: off
+    #   com:
+    #     agrosmart:
+    #       api: debug
+    #   org:
+    #     springframework: info
+    #     springframework.web: off
+    #     springframework.security: off
+    #     springframework.r2dbc:
+    #       core: off
+    #   reactor:
+    #     netty: off
+
+    # Debugar mais facilmente fluxos reativos
+    # reactor:
+    #   debug-agent:
+    #     enabled: false
