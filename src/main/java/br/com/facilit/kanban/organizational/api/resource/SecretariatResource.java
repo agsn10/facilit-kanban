@@ -4,6 +4,9 @@ import br.com.facilit.kanban.organizational.api.openapi.SecretariatOpenApi;
 import br.com.facilit.kanban.organizational.application.ppi.SecretariatPort;
 import br.com.facilit.kanban.organizational.domain.dto.SecretariatDTO;
 import br.com.facilit.kanban.shared.aop.ReactiveTransactional;
+import io.github.kelari.atg.annotation.ApiTestCase;
+import io.github.kelari.atg.annotation.ApiTestSpec;
+import io.github.kelari.atg.annotation.KelariGenerateApiTest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.net.HttpURLConnection;
 import java.util.UUID;
 
 /**
@@ -32,6 +36,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/secretariats")
 @RequiredArgsConstructor
+@KelariGenerateApiTest
 public class SecretariatResource implements SecretariatOpenApi {
 
     private final SecretariatPort secretariatPort;
@@ -42,6 +47,37 @@ public class SecretariatResource implements SecretariatOpenApi {
      * @param request objeto contendo os dados necessários para criação
      * @return {@link Mono} contendo os dados da Secretaria criada
      */
+    @ApiTestSpec(
+            scenarios = {
+                    @ApiTestCase(
+                            displayName = "✅ Should return 201 OK when 'id' is 201",
+                            order = 1,
+                            timeout = 5,
+                            expectedStatusCode = HttpURLConnection.HTTP_CREATED,
+                            dataProviderClassName = "br.com.facilit.kanban.data.SecretariatCreateDataLoad201",
+                            requiresAuth = false,
+                            repeat = 5,
+                            enableLogging = true,
+                            responseTimeoutSeconds = 5
+                    ),
+                    @ApiTestCase(
+                            displayName = "❌ Should return 400 Bad Request when 'id' is 400",
+                            order = 2,
+                            timeout = 5,
+                            expectedStatusCode = HttpURLConnection.HTTP_BAD_REQUEST,
+                            dataProviderClassName = "br.com.facilit.kanban.data.SecretariatCreateDataLoad400",
+                            requiresAuth = false
+                    ),
+                    @ApiTestCase(
+                            displayName = "❌ Should return 500 Internal Server Error for unhandled 'id'",
+                            order = 3,
+                            timeout = 5,
+                            expectedStatusCode = HttpURLConnection.HTTP_INTERNAL_ERROR,
+                            dataProviderClassName = "br.com.facilit.kanban.data.SecretariatCreateDataLoad500",
+                            requiresAuth = false
+                    )
+            }
+    )
     @PostMapping
     @ReactiveTransactional
     @ResponseStatus(HttpStatus.CREATED)
