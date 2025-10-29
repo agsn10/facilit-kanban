@@ -3,6 +3,8 @@ package br.com.facilit.kanban.organizational.mapping;
 import br.com.facilit.kanban.organizational.application.command.*;
 import br.com.facilit.kanban.organizational.domain.dto.SecretariatDTO;
 import br.com.facilit.kanban.organizational.domain.po.SecretariatPO;
+import br.com.facilit.kanban.people.domain.dto.AccountableDTO;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import org.springframework.data.domain.*;
 
 import java.util.UUID;
@@ -131,7 +133,7 @@ public final class SecretariatMapper {
         /**
          * Converte uma página de output do caso de uso para página de resposta DTO.
          */
-        public static final Function<Page<ListSecretariatCommand.Output>, Page<SecretariatDTO.Response>> PAGE_OUTPUT_TO_PAGE_RESPONSE =
+        public static final Function<Page<ListSecretariatCommand.Output>, PageResponse<SecretariatDTO.Response>> PAGE_OUTPUT_TO_PAGE_RESPONSE =
                 pageOutput -> {
                     @SuppressWarnings("unchecked")
                     java.util.List<SecretariatDTO.Response> responses = pageOutput.getContent()
@@ -139,10 +141,12 @@ public final class SecretariatMapper {
                             .map(out -> new SecretariatDTO.Response(out.uuid(), out.name(), out.description()))
                             .toList();
 
-                    return new PageImpl<>(
+                    return new PageResponse<SecretariatDTO.Response>(
                             responses,
-                            Pageable.unpaged(),
-                            pageOutput.getTotalElements()
+                            pageOutput.getNumber(),
+                            pageOutput.getSize(),
+                            pageOutput.getTotalElements(),
+                            pageOutput.getTotalPages()
                     );
                 };
     }

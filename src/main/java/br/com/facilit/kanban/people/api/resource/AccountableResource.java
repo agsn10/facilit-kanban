@@ -4,11 +4,12 @@ import br.com.facilit.kanban.people.api.openapi.AccountableOpenApi;
 import br.com.facilit.kanban.people.application.ppi.AccountablePort;
 import br.com.facilit.kanban.people.domain.dto.AccountableDTO;
 import br.com.facilit.kanban.shared.aop.ReactiveTransactional;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -51,7 +52,10 @@ public class AccountableResource implements AccountableOpenApi {
      * @return um {@link Mono} contendo a página de responsáveis
      */
     @GetMapping
-    public Mono<Page<AccountableDTO.Response>> list(@PageableDefault(page = 0, size = 20, sort = "name") Pageable pageable) {
+    public Mono<PageResponse<AccountableDTO.Response>> list(@RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "20") int size,
+                                                            @RequestParam(defaultValue = "name") String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         return accountablePort.list(pageable);
     }
 

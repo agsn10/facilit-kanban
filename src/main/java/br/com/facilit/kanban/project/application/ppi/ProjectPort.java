@@ -2,6 +2,7 @@ package br.com.facilit.kanban.project.application.ppi;
 
 import br.com.facilit.kanban.project.domain.dto.ProjectDTO;
 import br.com.facilit.kanban.project.domain.enums.StatusProject;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Mono;
@@ -29,7 +30,7 @@ public interface ProjectPort {
      * @param pageable objeto {@link Pageable} contendo número da página, tamanho da página e ordenação
      * @return {@link Mono} contendo uma {@link Page} de {@link ProjectDTO.Response} com os projetos da página solicitada
      */
-    Mono<Page<ProjectDTO.Response>> list(Pageable pageable);
+    Mono<PageResponse<ProjectDTO.Response>> list(Pageable pageable);
 
     /**
      * Busca um projeto pelo seu identificador único (UUID).

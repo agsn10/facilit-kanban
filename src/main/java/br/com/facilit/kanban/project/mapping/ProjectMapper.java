@@ -4,9 +4,9 @@ import br.com.facilit.kanban.project.application.command.*;
 import br.com.facilit.kanban.project.domain.dto.ProjectDTO;
 import br.com.facilit.kanban.project.domain.enums.StatusProject;
 import br.com.facilit.kanban.project.domain.po.ProjectPO;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import org.springframework.data.domain.*;
 
-import java.time.Instant;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -141,7 +141,7 @@ public final class ProjectMapper {
                     );
                 };
 
-        public static final Function<Page<ListProjectCommand.Output>, Page<ProjectDTO.Response>> PAGE_OUTPUT_TO_PAGE_RESPONSE =
+        public static final Function<Page<ListProjectCommand.Output>, PageResponse<ProjectDTO.Response>> PAGE_OUTPUT_TO_PAGE_RESPONSE =
                 output -> {
                     @SuppressWarnings("unchecked")
                     java.util.List<ProjectDTO.Response> responses =  output.getContent()
@@ -152,10 +152,12 @@ public final class ProjectMapper {
                                     }
                             ).toList();
 
-                    return new PageImpl<>(
+                    return new PageResponse<ProjectDTO.Response>(
                             responses,
-                            Pageable.unpaged(), // já está paginado no output, então não usamos o pageable real
-                            output.getTotalElements()
+                            output.getNumber(),
+                            output.getSize(),
+                            output.getTotalElements(),
+                            output.getTotalPages()
                     );
                 };
     }

@@ -3,8 +3,10 @@ package br.com.facilit.kanban.people.mapping;
 import br.com.facilit.kanban.people.application.command.*;
 import br.com.facilit.kanban.people.domain.dto.AccountableDTO;
 import br.com.facilit.kanban.people.domain.po.AccountablePO;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import org.springframework.data.domain.*;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -111,7 +113,7 @@ public final class AccountableMapper {
                 };
 
         /** Converte Page de Output para Page de DTO de resposta. */
-        public static final Function<Page<ListAccountableCommand.Output>, Page<AccountableDTO.Response>> PAGE_OUTPUT_TO_PAGE_RESPONSE =
+        public static final Function<Page<ListAccountableCommand.Output>, PageResponse<AccountableDTO.Response>> PAGE_OUTPUT_TO_PAGE_RESPONSE =
                 output -> {
                     java.util.List<AccountableDTO.Response> responses = output.getContent()
                             .stream()
@@ -123,10 +125,12 @@ public final class AccountableMapper {
                                     out.secretariatId()))
                             .toList();
 
-                    return new PageImpl<>(
+                    return new PageResponse<AccountableDTO.Response>(
                             responses,
-                            Pageable.unpaged(),
-                            output.getTotalElements()
+                            output.getNumber(),
+                            output.getSize(),
+                            output.getTotalElements(),
+                            output.getTotalPages()
                     );
                 };
     }

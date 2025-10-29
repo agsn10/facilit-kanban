@@ -1,6 +1,7 @@
 package br.com.facilit.kanban.organizational.api.openapi;
 
 import br.com.facilit.kanban.organizational.domain.dto.SecretariatDTO;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.RequestParam;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -67,10 +69,9 @@ public interface SecretariatOpenApi {
                     )
             }
     )
-    Mono<Page<SecretariatDTO.Response>> list(
-            @Parameter(description = "Parâmetros de paginação e ordenação")
-            Pageable pageable
-    );
+    Mono<PageResponse<SecretariatDTO.Response>> list(@RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "20") int size,
+                                                            @RequestParam(defaultValue = "name") String sort);
 
     /**
      * Consulta uma Secretaria utilizando o seu identificador único.

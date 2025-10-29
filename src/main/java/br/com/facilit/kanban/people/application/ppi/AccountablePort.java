@@ -1,6 +1,7 @@
 package br.com.facilit.kanban.people.application.ppi;
 
 import br.com.facilit.kanban.people.domain.dto.AccountableDTO;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Mono;
@@ -34,7 +35,7 @@ public interface AccountablePort {
      * @param pageable parâmetros de paginação e ordenação
      * @return um {@link Mono} contendo a página de responsáveis
      */
-    Mono<Page<AccountableDTO.Response>> list(Pageable pageable);
+    Mono<PageResponse<AccountableDTO.Response>> list(Pageable pageable);
 
     public Mono<AccountableDTO.Response> findById(UUID id);
 

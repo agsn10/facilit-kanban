@@ -4,13 +4,16 @@ import br.com.facilit.kanban.organizational.api.openapi.SecretariatOpenApi;
 import br.com.facilit.kanban.organizational.application.ppi.SecretariatPort;
 import br.com.facilit.kanban.organizational.domain.dto.SecretariatDTO;
 import br.com.facilit.kanban.shared.aop.ReactiveTransactional;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import io.github.kelari.atg.annotation.ApiTestCase;
 import io.github.kelari.atg.annotation.ApiTestSpec;
 import io.github.kelari.atg.annotation.KelariGenerateApiTest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -94,7 +97,10 @@ public class SecretariatResource implements SecretariatOpenApi {
      * API: GET /secretariats?page=0&size=10&sort=name,asc
      */
     @GetMapping
-    public Mono<Page<SecretariatDTO.Response>> list(@PageableDefault(page = 0, size = 20, sort = "name") Pageable pageable) {
+    public Mono<PageResponse<SecretariatDTO.Response>> list(@RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "20") int size,
+                                                            @RequestParam(defaultValue = "name") String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         return secretariatPort.list(pageable);
     }
 

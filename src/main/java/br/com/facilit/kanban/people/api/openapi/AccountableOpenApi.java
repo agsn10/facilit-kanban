@@ -1,6 +1,7 @@
 package br.com.facilit.kanban.people.api.openapi;
 
 import br.com.facilit.kanban.people.domain.dto.AccountableDTO;
+import br.com.facilit.kanban.shared.domain.dto.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.RequestParam;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -44,7 +46,9 @@ public interface AccountableOpenApi {
                             content = @Content(schema = @Schema(implementation = AccountableDTO.Response.class)))
             }
     )
-    public Mono<Page<AccountableDTO.Response>> list(Pageable pageable);
+    public Mono<PageResponse<AccountableDTO.Response>> list(@RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "20") int size,
+                                                            @RequestParam(defaultValue = "name") String sort);
 
     @Operation(
             summary = "Buscar responsável por ID",
