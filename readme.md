@@ -86,16 +86,16 @@ Com base nos conceitos de **DDD**, o desafio propõe um **domínio central de Ge
 
 No diretório raiz do projeto.
 
-1.  **Subir os containers** com o Docker Compose:
-
-    ``` bash
-    docker compose up -d
-    ```
-
-2.  **Compilar o projeto** (sem rodar os testes):
+1**Compilar o projeto** (sem rodar os testes):
 
     ``` bash
     mvn clean install -DskipTests
+    ```
+
+2.  **Subir os containers** com o Docker Compose:
+
+    ``` bash
+    docker compose up -d
     ```
 
 3.  **Acessar a documentação da API (Swagger UI):**\
