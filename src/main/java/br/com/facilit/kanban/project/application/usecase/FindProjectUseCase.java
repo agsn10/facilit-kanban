@@ -47,7 +47,7 @@ public class FindProjectUseCase implements IUseCase<FindProjectCommand.Input, Mo
     public Mono<FindProjectCommand.Output> execute(FindProjectCommand.Input input) {
         log.info("Iniciando consulta de Project | uuid={}", input.uuid());
 
-        return projectRepository.findByUuid(input.uuid())
+        return projectRepository.findByUuid(input.uuid().toString())
                 .map(ProjectMapper.Find.PO_TO_OUTPUT)
                 .doOnSuccess(output -> log.info("Project encontrado: {}", output))
                 .switchIfEmpty(Mono.defer(() -> {

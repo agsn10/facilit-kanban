@@ -42,7 +42,7 @@ public class FindAccountableUseCase implements IUseCase<FindAccountableCommand.I
     public Mono<FindAccountableCommand.Output> execute(FindAccountableCommand.Input input) {
         log.info("Iniciando consulta de Accountable | uuid={}", input.uuid());
 
-        return accountableRepository.findByUuid(input.uuid())
+        return accountableRepository.findByUuid(input.uuid().toString())
                 .map(AccountableMapper.Find.PO_TO_OUTPUT)
                 .doOnSuccess(output -> log.info("Accountable encontrado: {}", output))
                 .switchIfEmpty(Mono.defer(() -> {

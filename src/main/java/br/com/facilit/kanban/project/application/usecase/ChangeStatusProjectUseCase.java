@@ -56,7 +56,7 @@ public class ChangeStatusProjectUseCase implements IUseCase<ChangeStatusProjectC
     public Mono<ChangeStatusProjectCommand.Output> execute(ChangeStatusProjectCommand.Input input) {
         log.info("Alterando status do projeto. UUID: {}, Novo Status: {}", input.uuid(), input.status());
 
-        return projectRepository.findByUuid(input.uuid())
+        return projectRepository.findByUuid(input.uuid().toString())
                 .switchIfEmpty(Mono.defer(() -> {
                     log.warn("Projeto não encontrado para alteração de status. UUID: {}", input.uuid());
                     return Mono.error(new NotFoundResourceException("Projeto não encontrado"));

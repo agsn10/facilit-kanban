@@ -105,8 +105,8 @@ public class GlobalExceptionHandler  { //extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleException(Exception ex) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
-        problemDetail.setTitle("Internal Erro");
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        problemDetail.setTitle("Erro Interno");
         problemDetail.setType(URI.create("https://api.seusistema.com/errors/internal-error"));
         problemDetail.setDetail(ex.getMessage());
 

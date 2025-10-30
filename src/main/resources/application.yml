@@ -3,7 +3,7 @@ server:
   reactive:
     session:
       # Sessoes consomem memoria no WebFlux. Mantenha baixo ou disable se a API for stateless.
-      timeout: 5m
+      timeout: 0m #5m
   netty:
     # O tuning ideal depende de nucleos disponoveis.
     # worker-count = nucleos * 2 costuma ser uma boa referencia.
@@ -112,6 +112,11 @@ logging:
   file:
     name: facilit-kanban.log
     path: /logs
+  level:
+    # omitir o erro: javax.net.ssl.SSLHandshakeException: Received fatal alert: certificate_unknown
+    io.netty.handler.ssl.ApplicationProtocolNegotiationHandler: ERROR
+    io.netty.handler.ssl.SslHandler: ERROR
+    reactor.netty: ERROR
 
     # Níveis de logs (descomentando conforme necessário)
     # level:

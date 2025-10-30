@@ -40,5 +40,5 @@ public interface AccountableRepository extends ReactiveCrudRepository<Accountabl
      * @return {@link Mono} com o {@link AccountablePO} correspondente, ou {@link Mono#empty()} caso não exista
      */
     @Query("SELECT * FROM accountable WHERE uuid = :uuid")
-    Mono<AccountablePO> findByUuid(UUID uuid);
+    Mono<AccountablePO> findByUuid(String uuid);
 }

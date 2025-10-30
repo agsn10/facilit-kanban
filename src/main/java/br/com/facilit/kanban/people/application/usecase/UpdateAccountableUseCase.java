@@ -37,7 +37,7 @@ public class UpdateAccountableUseCase implements IUseCase<UpdateAccountableComma
     public Mono<UpdateAccountableCommand.Output> execute(UpdateAccountableCommand.Input input) {
         log.info("Iniciando atualização do responsável | UUID: {}", input.uuid());
 
-        return accountableRepository.findByUuid(input.uuid())
+        return accountableRepository.findByUuid(input.uuid().toString())
                 .switchIfEmpty(Mono.error(new NotFoundResourceException("Responsável não encontrado | UUID: " + input.uuid())))
                 .flatMap(existingPO -> {
                     // Atualiza campos

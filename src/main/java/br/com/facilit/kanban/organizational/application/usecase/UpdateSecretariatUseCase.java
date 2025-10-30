@@ -34,7 +34,7 @@ public class UpdateSecretariatUseCase implements IUseCase<UpdateSecretariatComma
     public Mono<UpdateSecretariatCommand.Output> execute(UpdateSecretariatCommand.Input input) {
         log.info("Iniciando atualização da secretaria com UUID: {}", input.uuid());
 
-        return secretariatRepository.findByUuid(input.uuid())
+        return secretariatRepository.findByUuid(input.uuid().toString())
                 .switchIfEmpty(Mono.defer(() -> {
                     log.warn("Secretaria não encontrada para UUID: {}", input.uuid());
                     return Mono.error(new NotFoundResourceException("Secretaria não encontrada."));
