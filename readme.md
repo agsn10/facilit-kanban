@@ -80,6 +80,40 @@ Com base nos conceitos de **DDD**, o desafio propõe um **domínio central de Ge
 | `infrastructure`       | REST, Banco, Docker… o mundo real     | Domain & Application |
 | `shared`               | Cross-cutting (exceções, util…)       | livre                |
 
+---
+
+# 🚀 Execução do Projeto
+
+No diretório raiz do projeto.
+
+1.  **Subir os containers** com o Docker Compose:
+
+    ``` bash
+    docker compose up -d
+    ```
+
+2.  **Compilar o projeto** (sem rodar os testes):
+
+    ``` bash
+    mvn clean install -DskipTests
+    ```
+
+3.  **Acessar a documentação da API (Swagger UI):**\
+    👉 <https://localhost:8443/swagger-ui.html>
+
+> Porque -DskipTests? Eu "esqueci" de colocar os dados nas classes DataLoad. Qualquer coisa posso fazer uma live coding e explico e demostro.  
+
+---
+
+# 🧪 Sobre os Testes de Integração
+
+Os testes de integração deste projeto são gerados automaticamente utilizando a biblioteca **Kelari** — uma ferramenta Java desenvolvida para gerar cenários de teste baseados nas especificações da API.
+
+### ⚙️ Observação
+
+O Kelari requer algumas configurações específicas para execução correta. Consulte o README oficial do repositório para detalhes de instalação e uso:
+
+👉 [https://github.com/agsn10/kelari-spring-api-test-generator](https://github.com/agsn10/kelari-spring-api-test-generator)
 
 ---
 
