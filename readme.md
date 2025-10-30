@@ -85,13 +85,13 @@ Com base nos conceitos de **DDD**, o desafio propõe um **domínio central de Ge
 
 ### Modelo Entidade Relacional
 
-![Modelo Entidade Relacional](img/diagrama_er.png)
+![Modelo Entidade Relacional](/img/diagrama_er.png)
 
 ### Open API
 
 Acesso: https://localhost:8043/swagger-ui.html
 
-![Swagger](img/openapi.png)
+![Swagger](/img/openapi.png)
 
 
 
