@@ -126,6 +126,3 @@ O Kelari requer algumas configurações específicas para execução correta. Co
 Acesso: https://localhost:8043/swagger-ui.html
 
 ![Swagger](/img/openapi.png)
-
-
-
