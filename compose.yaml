@@ -29,24 +29,24 @@ services:
 #    networks:
 #      - facilit_kanban_network
 
-#  app:
-#    build: .
-#    depends_on:
-#      - postgres
-#    environment:
-#      SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5432/facilit-kanban
-#      SPRING_R2DBC_USERNAME: facilit
-#      SPRING_R2DBC_PASSWORD: password
-#      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
-#      SPRING_LIQUIBASE_ENABLED: true
-#      SPRING_LIQUIBASE_URL: jdbc:postgresql://postgres:5432/facilit-kanban
-#      SPRING_LIQUIBASE_USER: facilit
-#      SPRING_LIQUIBASE_PASSWORD: password
-#      SPRING_LIQUIBASE_CHANGE_LOG: classpath:/db/changelog/db.changelog-master.yaml
-#    ports:
-#      - "8080:8080"
-#    networks:
-#      - facilit_kanban_network
+  app:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5432/facilit-kanban
+      SPRING_R2DBC_USERNAME: facilit
+      SPRING_R2DBC_PASSWORD: password
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_FLYWAY_ENABLED: true
+      SPRING_FLYWAY_URL: jdbc:postgresql://postgres:5432/facilit-kanban
+      SPRING_FLYWAY_USER: facilit
+      SPRING_FLYWAY_PASSWORD: password
+      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
+    ports:
+      - "8043:8043"
+    networks:
+      - facilit_kanban_network
 
 volumes:
   postgres_data:
