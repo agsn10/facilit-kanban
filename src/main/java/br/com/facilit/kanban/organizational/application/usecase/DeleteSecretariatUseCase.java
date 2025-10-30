@@ -41,7 +41,7 @@ public class DeleteSecretariatUseCase implements IUseCase<DeleteSecretariatComma
 
         log.info("Iniciando exclusão da Secretaria com UUID {}", input.uuid());
 
-        return secretariatRepository.findByUuid(input.uuid())
+        return secretariatRepository.findByUuid(input.uuid().toString())
                 .switchIfEmpty(Mono.defer(() -> {
                     log.warn("Secretaria não encontrada para o UUID: {}", input.uuid());
                     return Mono.error(new NotFoundResourceException("Secretaria não encontrada"));

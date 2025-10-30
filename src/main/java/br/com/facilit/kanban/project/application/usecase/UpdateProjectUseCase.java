@@ -39,7 +39,7 @@ public class UpdateProjectUseCase implements IUseCase<UpdateProjectCommand.Input
     public Mono<UpdateProjectCommand.Output> execute(UpdateProjectCommand.Input input) {
         log.info("Iniciando atualização do projeto: {}", input);
 
-        return projectRepository.findByUuid(input.uuid())
+        return projectRepository.findByUuid(input.uuid().toString())
                 .switchIfEmpty(Mono.error(new RuntimeException("Projeto não encontrado")))
                 .flatMap(existingProject -> {
                     ProjectPO projectPO = ProjectMapper.Update.INPUT_TO_PO.apply(input);

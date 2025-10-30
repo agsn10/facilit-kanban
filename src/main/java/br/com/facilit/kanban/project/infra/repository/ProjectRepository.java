@@ -33,5 +33,5 @@ public interface ProjectRepository extends ReactiveCrudRepository<ProjectPO, Lon
      * @return {@link Mono} contendo o projeto encontrado, ou vazio caso não exista
      */
     @Query("SELECT * FROM project WHERE uuid = :uuid")
-    Mono<ProjectPO> findByUuid(UUID uuid);
+    Mono<ProjectPO> findByUuid(String uuid);
 }

@@ -47,7 +47,7 @@ public class DeleteAccountableUseCase implements IUseCase<DeleteAccountableComma
     public Mono<Void> execute(DeleteAccountableCommand.Input input) {
         log.info("Iniciando exclusão do responsável | UUID: {}", input.uuid());
 
-        return accountableRepository.findByUuid(input.uuid())
+        return accountableRepository.findByUuid(input.uuid().toString())
                 .switchIfEmpty(Mono.error(
                         new NotFoundResourceException("Responsável não encontrado | UUID: " + input.uuid())))
                 .flatMap(existingPO -> accountableRepository.delete(existingPO))

@@ -44,7 +44,7 @@ public class FindSecretariatUseCase implements IUseCase<FindSecretariatCommand.I
 
         log.info("Consultando Secretaria por UUID: {}", input.uuid());
 
-        return secretariatRepository.findByUuid(input.uuid())
+        return secretariatRepository.findByUuid(input.uuid().toString())
                 .map(SecretariatMapper.Find.PO_TO_OUTPUT)
                 .switchIfEmpty(Mono.defer(() -> {
                     log.warn("Nenhuma Secretaria encontrada para UUID: {}", input.uuid());

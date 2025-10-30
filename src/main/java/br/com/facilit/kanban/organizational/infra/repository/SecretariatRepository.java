@@ -48,5 +48,5 @@ public interface SecretariatRepository extends ReactiveCrudRepository<Secretaria
      * @return {@link Mono} com o {@link SecretariatPO} correspondente, ou {@link Mono#empty()} caso não exista
      */
     @Query("SELECT * FROM secretariat WHERE uuid = :uuid")
-    Mono<SecretariatPO> findByUuid(UUID uuid);
+    Mono<SecretariatPO> findByUuid(String uuid);
 }
