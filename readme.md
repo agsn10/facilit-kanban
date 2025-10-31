@@ -117,6 +117,13 @@ O Kelari requer algumas configurações específicas para execução correta. Co
 
 ---
 
+# Facilit Kanban
+
+![Spring Boot CI](https://github.com/agsn10/facilit-kanban/actions/workflows/springboot-ci.yml/badge.svg)
+
+Aplicação Kanban feita em Spring Boot.
+
+---
 ### Modelo Entidade Relacional
 
 ![Modelo Entidade Relacional](/img/diagrama_er.png)

@@ -2,6 +2,8 @@ server:
   http_listen_port: 3200
   grpc_listen_port: 4317
 
+target: all
+
 distributor:
   receivers:
     otlp:
@@ -21,17 +23,14 @@ compactor:
 
 metrics_generator:
   processor:
-    service_graphs:
-      enabled: true
-    span_metrics:
-      enabled: true
+    service_graphs: {}
+    span_metrics: {}
   storage:
     path: /tmp/tempo/generator-wal
 
 memberlist:
   abort_if_cluster_join_fails: false
-  join_members:
-    - tempo:7946
+  join_members: []
 
 overrides:
   metrics_generator_processors: [service-graphs, span-metrics]
