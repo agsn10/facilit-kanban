@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   postgres:
     image: postgres:15
@@ -14,25 +15,76 @@ services:
     networks:
       - facilit_kanban_network
 
-#  pgadmin:
-#    image: dpage/pgadmin4
-#    container_name: pgadmin
-#    environment:
-#      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-#      PGADMIN_DEFAULT_PASSWORD: admin
-#    ports:
-#      - "5050:80"
-#    depends_on:
-#      - postgres
-#    volumes:
-#      - pgadmin_data:/var/lib/pgadmin
-#    networks:
-#      - facilit_kanban_network
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    volumes:
+      - ./open-telemetry/otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+    ports:
+      - "4319:4319"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP HTTP receiver
+      - "8889:8889"   # Prometheus metrics
+    command: [ "--config=/etc/otelcol-contrib/config.yaml" ]
+    networks:
+      - facilit_kanban_network
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./open-telemetry/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - facilit_kanban_network
+
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+    ports:
+      - "3200:3200"
+      - "4317:4317"
+    command:
+      - "-config.file=/etc/tempo.yaml"
+    volumes:
+      - ./open-telemetry/tempo.yaml:/etc/tempo.yaml
+      - ./open-telemetry/tempo-data:/tmp/tempo
+    networks:
+      - facilit_kanban_network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+      - tempo
+    networks:
+      - facilit_kanban_network
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./open-telemetry/loki-config.yaml:/etc/loki/local-config.yaml
+      - ./open-telemetry/loki-data:/tmp/loki
+    networks:
+      - facilit_kanban_network
 
   app:
     build: .
     depends_on:
       - postgres
+      - otel-collector
     environment:
       SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5432/facilit-kanban
       SPRING_R2DBC_USERNAME: facilit
@@ -50,7 +102,7 @@ services:
 
 volumes:
   postgres_data:
-  pgadmin_data:
+  grafana-storage:
 
 networks:
   facilit_kanban_network:

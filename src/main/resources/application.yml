@@ -36,17 +36,43 @@ reactor:
 
 
 management:
+  observations:
+    annotations:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: health,info,prometheus
+        include: health, metrics, prometheus, info, env, httptrace, observability
   metrics:
     enable:
       all: true
   endpoint:
     prometheus:
       enabled: true
-
+    health:
+      show-details: always
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0 # 100% de amostragem (ajuste em prod)
+  otlp:
+    metrics:
+      export:
+        enabled: true
+        step: 30s
+        batch-size: 10000
+        url: http://localhost:4318/v1/metrics
+    tracing:
+      export:
+        enabled: true
+        compression: gzip
+        timeout: 10s
+        url: http://localhost:4318/v1/traces
 
 spring:
   reactor:
@@ -109,6 +135,8 @@ springdoc:
     path: /v3/api-docs
 
 logging:
+  pattern:
+    level: "%5p [${spring.application.name:},traceId=%X{traceId:-},spanId=%X{spanId:-}]"
   file:
     name: facilit-kanban.log
     path: /logs

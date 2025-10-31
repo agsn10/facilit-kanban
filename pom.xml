@@ -109,7 +109,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency> -->
-	<!--	<dependency>
+		<!-- <dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-otlp</artifactId>
 			<scope>runtime</scope>
@@ -170,6 +170,15 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency> -->
+
+		<!-- logs via OTLP diretamente do Logback para o OTel Collector -->
+		<dependency>
+			<groupId>io.opentelemetry.instrumentation</groupId>
+			<artifactId>opentelemetry-logback-appender-1.0</artifactId>
+			<version>2.21.0-alpha</version>
+			<scope>runtime</scope>
+		</dependency>
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -185,6 +194,20 @@
 
 	<build>
 		<plugins>
+			<!-- Plugin para rodar os testes -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.1.2</version> <!-- Ou a versão mais recente disponível -->
+				<configuration>
+					<suiteXmlFiles>
+						<!-- Se você tiver um arquivo de suíte XML, pode apontar aqui -->
+						<!-- <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile> -->
+						<!-- o arquivo <suiteXmlFile> com testng.xml não é necessário quando
+                         você usa as anotações JUnit, como a anotação @Suite -->
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

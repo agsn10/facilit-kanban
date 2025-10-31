@@ -1,0 +1,26 @@
+server:
+  http_listen_port: 3200
+  grpc_listen_port: 4317
+
+distributor:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+        http:
+
+storage:
+  trace:
+    backend: local
+    local:
+      path: /tmp/tempo
+    wal:
+      path: /tmp/tempo/wal
+
+compactor:
+  compaction:
+    block_retention: 1h
+
+querier:
+  frontend_worker:
+    frontend_address: 127.0.0.1:9095

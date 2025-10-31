@@ -51,7 +51,6 @@ public class CreateSecretariatUseCase implements IUseCase<CreateSecretariatComma
         var secretariatPO = SecretariatMapper.Create.INPUT_TO_PO.apply(input);
         secretariatPO.setUuid(UUID.randomUUID());
         secretariatPO.setCreatedAt(LocalDateTime.now());
-        secretariatPO.setUpdatedAt(LocalDateTime.now());
         return secretariatRepository.save(secretariatPO)
                 .map(SecretariatMapper.Create.PO_TO_OUTPUT)
                 .doOnSuccess(output -> log.info("Secretaria criada com sucesso: {}", output))

@@ -32,6 +32,11 @@
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
+
+        <!-- Configuração do OTLP Exporter -->
+       <!-- <otelExporter
+                endpoint="http://otel-collector:4318/v1/logs"
+                timeoutMs="3000" /> -->
     </appender>
 
     <!-- ========== Arquivo apenas de ERROR ========== -->
@@ -91,6 +96,7 @@
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="ASYNC_APP" />
         <appender-ref ref="ASYNC_ERROR" />
+        <!-- <appender-ref ref="OTEL" /> --> <!-- 🔥 envia os logs para o Loki via OTel Collector -->
     </root>
 
 </configuration>
