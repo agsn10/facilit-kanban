@@ -13,14 +13,26 @@ storage:
   trace:
     backend: local
     local:
-      path: /tmp/tempo
-    wal:
-      path: /tmp/tempo/wal
+      path: /tmp/tempo/traces
 
 compactor:
   compaction:
-    block_retention: 1h
+    block_retention: 24h
 
-querier:
-  frontend_worker:
-    frontend_address: 127.0.0.1:9095
+metrics_generator:
+  processor:
+    service_graphs:
+      enabled: true
+    span_metrics:
+      enabled: true
+  storage:
+    path: /tmp/tempo/generator-wal
+
+memberlist:
+  abort_if_cluster_join_fails: false
+  join_members:
+    - tempo:7946
+
+overrides:
+  metrics_generator_processors: [service-graphs, span-metrics]
+  max_global_traces_per_user: 1000000
