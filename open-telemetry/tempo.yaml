@@ -1,6 +1,6 @@
 server:
   http_listen_port: 3200
-  grpc_listen_port: 4317
+  grpc_listen_port: 4318
 
 target: all
 
@@ -9,7 +9,9 @@ distributor:
     otlp:
       protocols:
         grpc:
+          endpoint: 0.0.0.0:4317   # OTLP gRPC (entrada de traces)
         http:
+          endpoint: 0.0.0.0:4319   # OTLP HTTP (entrada alternativa)
 
 storage:
   trace:
