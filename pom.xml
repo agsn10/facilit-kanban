@@ -26,10 +26,20 @@
 		<tag/>
 		<url/>
 	</scm>
+
 	<properties>
 		<java.version>17</java.version>
 		<spring-modulith.version>1.4.3</spring-modulith.version>
 	</properties>
+
+	<!-- <repositories>
+		<repository>
+			<id>github</id>
+			<name>GitHub Kelari Maven</name>
+			<url>https://maven.pkg.github.com/agsn10/kelari-spring-api-test-generator</url>
+		</repository>
+	</repositories> -->
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
