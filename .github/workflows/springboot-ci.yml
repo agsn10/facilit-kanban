@@ -2,9 +2,9 @@ name: Spring Boot CI/CD with Docker
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 env:
   DOCKER_IMAGE: neto10/facilit-kanban-app
