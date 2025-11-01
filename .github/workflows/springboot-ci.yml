@@ -19,6 +19,21 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
+      - name: Set up Maven settings.xml
+        run: |
+          mkdir -p $HOME/.m2
+          cat > $HOME/.m2/settings.xml <<EOF
+          <settings>
+            <servers>
+              <server>
+                <id>github</id>
+                <username>${{ secrets.REPO_USERNAME }}</username>
+                <password>${{ secrets.REPO_TOKEN }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF  
+
       - name: Configurar Java
         uses: actions/setup-java@v3
         with:
