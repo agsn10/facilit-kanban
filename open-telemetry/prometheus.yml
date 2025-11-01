@@ -2,11 +2,10 @@ global:
   scrape_interval: 5s
 
 scrape_configs:
-  - job_name: 'otel-collector'
-    static_configs:
-      - targets: ['otel-collector:8889']
-
-  - job_name: 'spring-boot-app'
+  - job_name: 'facilit-kanban'
     metrics_path: '/actuator/prometheus'
+    scheme: https
     static_configs:
-      - targets: ['app:8043']
+      - targets: ['host.docker.internal:8043']  # ou localhost:8043
+    tls_config:
+      insecure_skip_verify: true  # ignora certificado self-signed

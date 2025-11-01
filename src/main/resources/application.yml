@@ -44,8 +44,15 @@ management:
       exposure:
         include: health, metrics, prometheus, info, env, httptrace, observability
   metrics:
+    tags:
+      application: ${spring.application.name}
     enable:
       all: true
+    export:
+      prometheus:
+        enabled: true
+      otlp:
+        enabled: true
   endpoint:
     prometheus:
       enabled: true

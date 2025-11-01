@@ -32,13 +32,13 @@
 		<spring-modulith.version>1.4.3</spring-modulith.version>
 	</properties>
 
-	<!-- <repositories>
+	<repositories>
 		<repository>
 			<id>github</id>
 			<name>GitHub Kelari Maven</name>
 			<url>https://maven.pkg.github.com/agsn10/kelari-spring-api-test-generator</url>
 		</repository>
-	</repositories> -->
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -119,7 +119,8 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency> -->
-		<!-- <dependency>
+
+		<dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-otlp</artifactId>
 			<scope>runtime</scope>
@@ -128,7 +129,8 @@
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-prometheus</artifactId>
 			<scope>runtime</scope>
-		</dependency> -->
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.modulith</groupId>
 			<artifactId>spring-modulith-actuator</artifactId>
@@ -158,7 +160,7 @@
 		<dependency>
 			<groupId>io.github.kelari.atg</groupId>
 			<artifactId>kelari-spring-api-test-generator</artifactId>
-			<version>1.0.0</version>
+			<version>1.1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -239,7 +241,7 @@
 						<path>
 							<groupId>io.github.kelari.atg</groupId>
 							<artifactId>kelari-spring-api-test-generator</artifactId>
-							<version>1.0.0</version>
+							<version>1.1.6</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
